@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "242211100927",
+    "project_id": "myperfectscheduleapp",
+    "storage_bucket": "myperfectscheduleapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242211100927:android:41d841cfd5ba60b49054ca",
+        "android_client_info": {
+          "package_name": "com.example.myperfectscheduleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242211100927-ok3f3ucmv4srtqdc1ad8gqbv0fk0e459.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkperloAXaeLrJleOFleSBOkWTyg8ziQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242211100927-ok3f3ucmv4srtqdc1ad8gqbv0fk0e459.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
