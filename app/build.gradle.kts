@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-firestore:24.10.0")
 
     implementation(libs.appcompat)
     implementation(libs.material)
