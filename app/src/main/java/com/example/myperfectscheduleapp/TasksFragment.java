@@ -1,111 +1,64 @@
 package com.example.myperfectscheduleapp;
 
-import android.app.AlarmManager;
-import android.app.Dialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TasksFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
-    private ArrayList<TaskItem> taskList;
-
-    public TasksFragment() {
-    }
+    private List<TaskItem> taskList;
+    private FirebaseFirestore db;
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tasks, container, false);
 
-        return inflater.inflate(R.layout.fragment_tasks, container, false);
-    }
-
-    @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState) {
-
-        recyclerView = view.findViewById(R.id.recyclerTasks);
+        db = FirebaseFirestore.getInstance();
+        recyclerView = view.findViewById(R.id.recyclerViewTasks);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         taskList = new ArrayList<>();
-
         adapter = new TaskAdapter(taskList);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+
+        FloatingActionButton fab = view.findViewById(R.id.fabAddTask);
+        fab.setOnClickListener(v -> startActivity(new Intent(getActivity(), AddTaskActivity.class)));
+
+        loadTasks();
+        return view;
     }
 
-    public void showAddTaskDialog() {
+    private void loadTasks() {
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (uid == null) return;
 
-        Dialog dialog = new Dialog(requireContext());
-
-        View view = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_add_task, null);
-
-        dialog.setContentView(view);
-
-        EditText title = view.findViewById(R.id.etTaskTitle);
-        EditText description = view.findViewById(R.id.etTaskDescription);
-        EditText date = view.findViewById(R.id.etTaskDate);
-
-        Button save = view.findViewById(R.id.btnSaveTask);
-
-        save.setOnClickListener(v -> {
-
-            TaskItem task = new TaskItem(
-                    title.getText().toString(),
-                    description.getText().toString(),
-                    date.getText().toString()
-            );
-
-            taskList.add(task);
-            adapter.notifyDataSetChanged();
-
-            // יצירת התראה
-            Intent intent = new Intent(getContext(), ReminderReceiver.class);
-            intent.putExtra("title", title.getText().toString());
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    getContext(),
-                    (int) System.currentTimeMillis(),
-                    intent,
-                    PendingIntent.FLAG_IMMUTABLE
-            );
-
-            AlarmManager alarmManager =
-                    (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-
-            long triggerTime = System.currentTimeMillis() + 60000;
-
-            alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-            );
-
-            dialog.dismiss();
-        });
-
-        dialog.show();
+        db.collection("users").document(uid).collection("tasks")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) return;
+                    taskList.clear();
+                    if (value != null) {
+                        for (QueryDocumentSnapshot doc : value) {
+                            TaskItem task = doc.toObject(TaskItem.class);
+                            taskList.add(task);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 }

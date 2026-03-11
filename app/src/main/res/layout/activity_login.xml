@@ -1,61 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="24dp"
     android:gravity="center"
-    android:padding="30dp"
-    android:background="#F5F5F5">
+    android:background="#FFFFFF">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Perfect Schedule"
-        android:textSize="30sp"
+        android:text="ברוכים הבאים"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#222222"
-        android:layout_marginBottom="40dp"/>
+        android:textColor="#6200EE"
+        android:layout_marginBottom="32dp"/>
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/editEmail"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Email"
-        android:background="@android:drawable/editbox_background"
+        android:layout_height="wrap_content"
+        android:hint="אימייל"
         android:inputType="textEmailAddress"
-        android:padding="10dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/editPassword"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Password"
+        android:layout_height="wrap_content"
+        android:hint="סיסמה"
         android:inputType="textPassword"
-        android:background="@android:drawable/editbox_background"
-        android:padding="10dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginBottom="24dp"/>
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="LOGIN"
-        android:textStyle="bold"
-        android:layout_marginTop="25dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account?"
-        android:layout_marginTop="20dp"/>
+        android:text="התחברות"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFFFFF"/>
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/btnGoToSignUp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="SIGN UP"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="wrap_content"
+        android:text="אין לך חשבון? הירשם כאן"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
 </LinearLayout>

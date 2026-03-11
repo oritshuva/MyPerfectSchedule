@@ -1,26 +1,30 @@
 package com.example.myperfectscheduleapp;
 
+import com.google.firebase.Timestamp;
+
 public class TaskItem {
+    private String taskName;
+    private String subject;
+    private Timestamp dueDate;
+    private String status;
 
-    private String title;
-    private String description;
-    private String date;
+    // קונסטרקטור ריק חובה עבור Firebase
+    public TaskItem() {}
 
-    public TaskItem(String title, String description, String date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
+    public TaskItem(String taskName, String subject, Timestamp dueDate, String status) {
+        this.taskName = taskName;
+        this.subject = subject;
+        this.dueDate = dueDate;
+        this.status = status;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getDate() {
-        return date;
-    }
+    // Getters ו-Setters
+    public String getTaskName() { return taskName; }
+    public void setTaskName(String taskName) { this.taskName = taskName; }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+    public Timestamp getDueDate() { return dueDate; }
+    public void setDueDate(Timestamp dueDate) { this.dueDate = dueDate; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

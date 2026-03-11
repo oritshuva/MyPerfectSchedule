@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp">
 
-    <EditText
-        android:id="@+id/etTaskTitle"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Task title"
-        android:inputType="text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="הוספת משימה חדשה"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/etTaskDescription"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:layout_marginTop="10dp"/>
-
-    <EditText
-        android:id="@+id/etTaskDate"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Date"
-        android:inputType="date"
-        android:layout_marginTop="10dp"/>
-
-    <Button
-        android:id="@+id/btnSaveTask"
+        android:id="@+id/editTaskName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Task"
-        android:layout_marginTop="15dp"/>
+        android:hint="שם המשימה (למשל: שיעורי בית)"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/editTaskSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="מקצוע"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="תאריך יעד:"
+        android:textSize="14sp"/>
+
+    <DatePicker
+        android:id="@+id/datePickerTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
 
 </LinearLayout>

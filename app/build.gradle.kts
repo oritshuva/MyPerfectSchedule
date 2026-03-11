@@ -13,17 +13,13 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -34,24 +30,19 @@ android {
 }
 
 dependencies {
-    implementation("com.google.firebase:firebase-firestore:24.10.0")
-
     implementation(libs.appcompat)
     implementation(libs.material)
-
-    implementation("androidx.activity:activity:1.8.2")
-
     implementation(libs.constraintlayout)
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    // ViewPager2 - חובה למערכת השעות
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.8.4")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.activity)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

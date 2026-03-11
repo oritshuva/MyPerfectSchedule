@@ -1,5 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyperfectScheduleApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">MyPerfectScheduleApp</string>
+
+    <string-array name="days_array">
+        <item>יום ראשון</item>
+        <item>יום שני</item>
+        <item>יום שלישי</item>
+        <item>יום רביעי</item>
+        <item>יום חמישי</item>
+        <item>יום שישי</item>
+        <item>יום שבת</item>
+    </string-array>
+
+    <string-array name="subjects_array">
+        <item>מתמטיקה</item>
+        <item>אנגלית</item>
+        <item>היסטוריה</item>
+        <item>לשון</item>
+        <item>מדעים</item>
+        <item>ספורט</item>
+        <item>תנ"ך</item>
+    </string-array>
+
+    <string name="login_title">התחברות למערכת</string>
+    <string name="signup_title">הרשמה למערכת</string>
+    <string name="add_task_title">הוספת משימה חדשה</string>
+    <string name="save_button">שמור</string>
+    <string name="cancel_button">ביטול</string>
 </resources>

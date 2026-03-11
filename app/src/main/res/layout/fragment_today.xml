@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#F7F9FC"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/textDateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="יום רביעי, 11 במרץ"
+        android:textSize="18sp"
+        android:textColor="#757575"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:backgroundTint="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מה קורה עכשיו?"
+                android:textSize="14sp"
+                android:textColor="#6200EE"
+                android:textStyle="bold"
+                android:textAllCaps="true"/>
+
+            <TextView
+                android:id="@+id/textCurrentLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="טוען מערכת..."
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/textTimeLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textSize="16sp"
+                android:textColor="#F44336"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textNextLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="השיעור הבא: --"
+        android:textSize="16sp"
+        android:textColor="#616161"
+        android:layout_marginTop="32dp"/>
+
+</LinearLayout>

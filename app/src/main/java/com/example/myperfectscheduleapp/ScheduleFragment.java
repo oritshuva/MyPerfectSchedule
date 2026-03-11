@@ -1,103 +1,70 @@
 package com.example.myperfectscheduleapp;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ScheduleAdapter adapter;
-    private ArrayList<ScheduleItem> scheduleList;
+    private List<ScheduleItem> scheduleList;
+    private FirebaseFirestore db;
+    private String day;
 
-    public ScheduleFragment() {
-        // constructor required
+    public static ScheduleFragment newInstance(String day) {
+        ScheduleFragment fragment = new ScheduleFragment();
+        Bundle args = new Bundle();
+        args.putString("day", day);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
-    }
+        if (getArguments() != null) {
+            day = getArguments().getString("day");
+        }
 
-    @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
-
-        recyclerView = view.findViewById(R.id.recyclerSchedule);
+        db = FirebaseFirestore.getInstance();
+        recyclerView = view.findViewById(R.id.recyclerViewSchedule);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         scheduleList = new ArrayList<>();
-
         adapter = new ScheduleAdapter(scheduleList);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        Button btnAdd = view.findViewById(R.id.btnAddSchedule);
+        loadSchedule();
 
-        btnAdd.setOnClickListener(v -> showAddScheduleDialog());
+        return view;
     }
 
-    // חשוב: public ולא private
-    public void showAddScheduleDialog() {
+    private void loadSchedule() {
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (uid == null) return;
 
-        Dialog dialog = new Dialog(requireContext());
-
-        View dialogView = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_add_schedule, null);
-
-        dialog.setContentView(dialogView);
-
-        EditText etSubject = dialogView.findViewById(R.id.etSubjectName);
-        EditText etDay = dialogView.findViewById(R.id.etDay);
-        EditText etStart = dialogView.findViewById(R.id.etStartTime);
-        EditText etEnd = dialogView.findViewById(R.id.etEndTime);
-
-        Button btnSave = dialogView.findViewById(R.id.btnSaveSchedule);
-
-        btnSave.setOnClickListener(v -> {
-
-            String subject = etSubject.getText().toString();
-            String day = etDay.getText().toString();
-            String start = etStart.getText().toString();
-            String end = etEnd.getText().toString();
-
-            if (TextUtils.isEmpty(subject) ||
-                    TextUtils.isEmpty(day) ||
-                    TextUtils.isEmpty(start) ||
-                    TextUtils.isEmpty(end)) {
-                return;
-            }
-
-            ScheduleItem item = new ScheduleItem(subject, day, start, end);
-
-            scheduleList.add(item);
-
-            adapter.notifyDataSetChanged();
-
-            dialog.dismiss();
-        });
-
-        dialog.show();
+        db.collection("users").document(uid).collection("schedule")
+                .whereEqualTo("day", day)
+                .orderBy("startTime", Query.Direction.ASCENDING)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null || value == null) return;
+                    scheduleList.clear();
+                    scheduleList.addAll(value.toObjects(ScheduleItem.class));
+                    adapter.notifyDataSetChanged();
+                });
     }
 }

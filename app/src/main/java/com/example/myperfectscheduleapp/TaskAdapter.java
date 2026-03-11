@@ -4,13 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<TaskItem> taskList;
 
@@ -20,41 +20,33 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_task, parent, false);
-
-        return new ViewHolder(view);
+    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+        return new TaskViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         TaskItem task = taskList.get(position);
+        holder.textName.setText(task.getTaskName());
+        holder.textSub.setText(task.getSubject());
 
-        holder.title.setText(task.getTitle());
-        holder.description.setText(task.getDescription());
-        holder.date.setText(task.getDate());
+        if (task.getDueDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
+            holder.textDate.setText(sdf.format(task.getDueDate().toDate()));
+        }
     }
 
     @Override
-    public int getItemCount() {
-        return taskList.size();
-    }
+    public int getItemCount() { return taskList.size(); }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title;
-        TextView description;
-        TextView date;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            title = itemView.findViewById(R.id.tvTaskTitle);
-            description = itemView.findViewById(R.id.tvTaskDescription);
-            date = itemView.findViewById(R.id.tvTaskDate);
+    static class TaskViewHolder extends RecyclerView.ViewHolder {
+        TextView textName, textSub, textDate;
+        public TaskViewHolder(View v) {
+            super(v);
+            textName = v.findViewById(R.id.textTaskName);
+            textSub = v.findViewById(R.id.textTaskSubject);
+            textDate = v.findViewById(R.id.textTaskDate);
         }
     }
 }

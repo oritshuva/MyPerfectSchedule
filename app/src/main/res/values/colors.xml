@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <string name="add_schedule">Add Schedule</string>
+    <color name="purple_500">#6750A4</color>
 </resources>

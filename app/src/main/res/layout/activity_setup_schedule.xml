@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Spinner android:id="@+id/spinnerDays" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" />
+    <Spinner android:id="@+id/spinnerSubjects" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" />
+
+    <EditText android:id="@+id/editStartTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="שעת התחלה" android:inputType="time" />
+    <EditText android:id="@+id/editEndTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="שעת סיום" android:inputType="time" />
+
+    <Button android:id="@+id/btnSaveLesson" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="שמור שיעור" />
+    <Button android:id="@+id/btnAddCustomSubject" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="הוסף מקצוע" />
+
+</LinearLayout>

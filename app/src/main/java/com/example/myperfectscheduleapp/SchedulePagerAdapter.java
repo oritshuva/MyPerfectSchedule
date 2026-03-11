@@ -7,10 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SchedulePagerAdapter extends FragmentStateAdapter {
 
-    private final ScheduleFragment scheduleFragment = new ScheduleFragment();
-    private final AfterSchoolFragment afterSchoolFragment = new AfterSchoolFragment();
-    private final TasksFragment tasksFragment = new TasksFragment();
-
     public SchedulePagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -18,24 +14,17 @@ public class SchedulePagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-
-        if (position == 0) {
-            return scheduleFragment;
-        }
-        else if (position == 1) {
-            return afterSchoolFragment;
-        }
-        else {
-            return tasksFragment;
+        switch (position) {
+            case 0: return new TodayFragment();
+            case 1: return new ScheduleFragment();
+            case 2: return new TasksFragment();
+            case 3: return new AfterSchoolFragment();
+            default: return new TodayFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
-    }
-
-    public TasksFragment getTasksFragment() {
-        return tasksFragment;
+        return 4;
     }
 }
