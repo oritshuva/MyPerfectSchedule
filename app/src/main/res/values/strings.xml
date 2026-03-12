@@ -1,30 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyPerfectScheduleApp</string>
+    <!-- שם האפליקציה -->
+    <string name="app_name">MyPerfectSchedule</string>
+
+    <!-- Navigation -->
+    <string name="nav_today">היום</string>
+    <string name="nav_schedule">מערכת</string>
+    <string name="nav_tasks">משימות</string>
+
+    <!-- Days -->
+    <string name="day_sunday">ראשון</string>
+    <string name="day_monday">שני</string>
+    <string name="day_tuesday">שלישי</string>
+    <string name="day_wednesday">רביעי</string>
+    <string name="day_thursday">חמישי</string>
+    <string name="day_friday">שישי</string>
 
     <string-array name="days_array">
-        <item>יום ראשון</item>
-        <item>יום שני</item>
-        <item>יום שלישי</item>
-        <item>יום רביעי</item>
-        <item>יום חמישי</item>
-        <item>יום שישי</item>
-        <item>יום שבת</item>
+        <item>ראשון</item>
+        <item>שני</item>
+        <item>שלישי</item>
+        <item>רביעי</item>
+        <item>חמישי</item>
+        <item>שישי</item>
+    </string-array>
+
+    <string-array name="periods_array">
+        <item>שיעור 1</item>
+        <item>שיעור 2</item>
+        <item>שיעור 3</item>
+        <item>שיעור 4</item>
+        <item>שיעור 5</item>
+        <item>שיעור 6</item>
+        <item>שיעור 7</item>
+        <item>שיעור 8</item>
     </string-array>
 
     <string-array name="subjects_array">
         <item>מתמטיקה</item>
+        <item>עברית</item>
         <item>אנגלית</item>
         <item>היסטוריה</item>
-        <item>לשון</item>
-        <item>מדעים</item>
-        <item>ספורט</item>
-        <item>תנ"ך</item>
+        <item>גיאוגרפיה</item>
+        <item>פיזיקה</item>
+        <item>כימיה</item>
+        <item>ביולוגיה</item>
+        <item>ספרות</item>
+        <item>תנ״ך</item>
+        <item>אזרחות</item>
+        <item>חינוך גופני</item>
+        <item>מוזיקה</item>
+        <item>אמנות</item>
+        <item>מחשבים</item>
     </string-array>
 
-    <string name="login_title">התחברות למערכת</string>
-    <string name="signup_title">הרשמה למערכת</string>
-    <string name="add_task_title">הוספת משימה חדשה</string>
-    <string name="save_button">שמור</string>
-    <string name="cancel_button">ביטול</string>
+    <!-- Schedule Dialog -->
+    <string name="hint_subject">מקצוע</string>
+    <string name="hint_start_time">שעת התחלה</string>
+    <string name="hint_end_time">שעת סיום</string>
+    <string name="hint_room">חדר (אופציונלי)</string>
+    <string name="prompt_day">בחר יום</string>
+    <string name="prompt_period">בחר שיעור</string>
+
+    <!-- Buttons -->
+    <string name="btn_save">שמור</string>
+    <string name="btn_cancel">ביטול</string>
+    <string name="btn_add">הוסף</string>
+    <string name="btn_delete">מחק</string>
+    <string name="btn_edit">ערוך</string>
+
+    <!-- Placeholders -->
+    <string name="room_placeholder">חדר: %1$s</string>
+    <string name="time_placeholder">%1$s - %2$s</string>
+    <string name="period_placeholder">שיעור %1$s</string>
+
+    <!-- Tasks -->
+    <string name="task_title_hint">כותרת משימה</string>
+    <string name="task_description_hint">תיאור (אופציונלי)</string>
+    <string name="task_due_date">תאריך יעד</string>
+    <string name="task_subject">מקצוע</string>
+    <string name="task_urgency">דחיפות</string>
+    <string name="urgency_high">גבוהה</string>
+    <string name="urgency_medium">בינונית</string>
+    <string name="urgency_low">נמוכה</string>
+
+    <string-array name="urgency_array">
+        <item>גבוהה</item>
+        <item>בינונית</item>
+        <item>נמוכה</item>
+    </string-array>
+
+    <!-- Today Fragment -->
+    <string name="today_title">היום</string>
+    <string name="current_lesson">שיעור נוכחי</string>
+    <string name="next_lesson">שיעור הבא</string>
+    <string name="no_more_lessons">אין עוד שיעורים היום</string>
+    <string name="no_lessons_today">אין שיעורים היום</string>
+    <string name="upcoming_tasks">משימות קרובות</string>
+    <string name="no_tasks">אין משימות</string>
+
+    <!-- Schedule Fragment -->
+    <string name="schedule_title">מערכת שעות</string>
+    <string name="add_lesson">הוסף שיעור</string>
+    <string name="no_lessons">אין שיעורים ביום זה</string>
+    <string name="lesson_added">השיעור נוסף בהצלחה</string>
+    <string name="lesson_deleted">השיעור נמחק</string>
+    <string name="lesson_updated">השיעור עודכן</string>
+
+    <!-- Tasks Fragment -->
+    <string name="tasks_title">משימות</string>
+    <string name="add_task">הוסף משימה</string>
+    <string name="task_completed">המשימה הושלמה</string>
+    <string name="task_deleted">המשימה נמחקה</string>
+    <string name="task_added">המשימה נוספה בהצלחה</string>
+
+    <!-- Errors -->
+    <string name="error_empty_subject">נא להזין מקצוע</string>
+    <string name="error_empty_start_time">נא להזין שעת התחלה</string>
+    <string name="error_empty_end_time">נא להזין שעת סיום</string>
+    <string name="error_empty_title">נא להזין כותרת</string>
+    <string name="error_loading">שגיאה בטעינת הנתונים</string>
+    <string name="error_saving">שגיאה בשמירת הנתונים</string>
+
+    <!-- Auth -->
+    <string name="login_title">התחברות</string>
+    <string name="register_title">הרשמה</string>
+    <string name="email_hint">אימייל</string>
+    <string name="password_hint">סיסמה</string>
+    <string name="btn_login">התחבר</string>
+    <string name="btn_register">הירשם</string>
+    <string name="btn_logout">התנתק</string>
+    <string name="no_account">אין לך חשבון?</string>
+    <string name="have_account">יש לך חשבון?</string>
+
 </resources>

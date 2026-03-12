@@ -7,24 +7,22 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SchedulePagerAdapter extends FragmentStateAdapter {
 
-    public SchedulePagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    private final String[] days;
+
+    public SchedulePagerAdapter(@NonNull FragmentActivity fragmentActivity, String[] days) {
         super(fragmentActivity);
+        this.days = days;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position) {
-            case 0: return new TodayFragment();
-            case 1: return new ScheduleFragment();
-            case 2: return new TasksFragment();
-            case 3: return new AfterSchoolFragment();
-            default: return new TodayFragment();
-        }
+
+        return DayScheduleFragment.newInstance(days[position]);
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return days.length;
     }
 }

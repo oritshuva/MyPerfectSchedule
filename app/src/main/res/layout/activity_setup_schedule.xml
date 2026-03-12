@@ -1,17 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <Spinner android:id="@+id/spinnerDays" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" />
-    <Spinner android:id="@+id/spinnerSubjects" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" />
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:title="Create your weekly schedule"
+        android:backgroundTint="@color/purple_500"
+        android:titleTextColor="@android:color/white" />
 
-    <EditText android:id="@+id/editStartTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="שעת התחלה" android:inputType="time" />
-    <EditText android:id="@+id/editEndTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="שעת סיום" android:inputType="time" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fillViewport="true">
 
-    <Button android:id="@+id/btnSaveLesson" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="שמור שיעור" />
-    <Button android:id="@+id/btnAddCustomSubject" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="הוסף מקצוע" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-</LinearLayout>
+            <!-- 1. הבחירה: Day -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day:" />
+            <Spinner
+                android:id="@+id/spinnerDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 2. Period -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Period:"
+                android:layout_marginTop="8dp"/>
+            <Spinner
+                android:id="@+id/spinnerPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 3. Subject -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject:"
+                android:layout_marginTop="8dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. Mathematics" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 4. Start Time / End Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Start Time:"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="End Time:"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <Button
+                    android:id="@+id/btnStartTime"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="08:00"/>
+                <Button
+                    android:id="@+id/btnEndTime"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="08:45"/>
+            </LinearLayout>
+
+            <!-- SAVE CLASS -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="SAVE CLASS"
+                android:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"/>
+
+            <!-- רשימת השיעורים שהתווספו היום -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Classes added today:"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvClasses"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"/>
+
+            <!-- FINISH SETUP -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFinishSetup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="FINISH SETUP"
+                android:backgroundTint="@color/teal_200"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

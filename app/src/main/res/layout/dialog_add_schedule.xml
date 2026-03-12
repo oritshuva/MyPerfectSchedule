@@ -1,64 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <!-- Subject - עם Material TextInputLayout -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutSubject"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_subject"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Start Time -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutStartTime"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_start_time"
+        android:layout_marginTop="12dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_time"
+        app:endIconContentDescription="@string/hint_start_time">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:minHeight="48dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- End Time -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEndTime"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_end_time"
+        android:layout_marginTop="12dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_time"
+        app:endIconContentDescription="@string/hint_end_time">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:minHeight="48dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Day Spinner -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="הוספת שיעור חדש"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
-
-    <EditText
-        android:id="@+id/editSubject"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="שם המקצוע (למשל: אנגלית)"
-        android:background="@drawable/edittext_rounded"
-        android:paddingHorizontal="12dp"
-        android:layout_marginBottom="12dp"/>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
-
-        <Button
-            android:id="@+id/btnPickStart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="בחר שעת התחלה"
-            android:layout_marginEnd="4dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-
-        <Button
-            android:id="@+id/btnPickEnd"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="בחר שעת סיום"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-    </LinearLayout>
+        android:text="@string/prompt_day"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"/>
 
     <Spinner
         android:id="@+id/spinnerDay"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/edittext_rounded"
-        android:layout_marginBottom="20dp"/>
+        android:layout_height="wrap_content"
+        android:prompt="@string/prompt_day"
+        android:minHeight="48dp"/>
 
-    <Button
-        android:id="@+id/btnSave"
+    <!-- Period Spinner -->
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="שמור במערכת"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF"/>
+        android:layout_height="wrap_content"
+        android:text="@string/prompt_period"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerPeriod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/prompt_period"
+        android:minHeight="48dp"/>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="end">
+
+        <!-- Cancel -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelSchedule"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_cancel"
+            android:minHeight="48dp"/>
+
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"/>
+
+        <!-- Save -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_save"
+            android:minHeight="48dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

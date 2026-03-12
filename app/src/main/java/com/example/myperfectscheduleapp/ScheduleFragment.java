@@ -1,70 +1,44 @@
 package com.example.myperfectscheduleapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ScheduleFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ScheduleAdapter adapter;
-    private List<ScheduleItem> scheduleList;
-    private FirebaseFirestore db;
-    private String day;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
-    public static ScheduleFragment newInstance(String day) {
-        ScheduleFragment fragment = new ScheduleFragment();
-        Bundle args = new Bundle();
-        args.putString("day", day);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        if (getArguments() != null) {
-            day = getArguments().getString("day");
-        }
+        viewPager = view.findViewById(R.id.viewPagerDays);
+        tabLayout = view.findViewById(R.id.tabLayoutDays);
+        FloatingActionButton fabAdd = view.findViewById(R.id.fabAdd);
 
-        db = FirebaseFirestore.getInstance();
-        recyclerView = view.findViewById(R.id.recyclerViewSchedule);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        SchedulePagerAdapter adapter = new SchedulePagerAdapter(requireActivity(), days);
+        viewPager.setAdapter(adapter);
 
-        scheduleList = new ArrayList<>();
-        adapter = new ScheduleAdapter(scheduleList);
-        recyclerView.setAdapter(adapter);
+        // ✅ חיבור TabLayout עם ViewPager
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(days[position])
+        ).attach();
 
-        loadSchedule();
+        // ✅ כפתור FAB פותח את WeeklyScheduleActivity
+        fabAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), WeeklyScheduleActivity.class);
+            startActivity(intent);
+        });
 
         return view;
-    }
-
-    private void loadSchedule() {
-        String uid = FirebaseAuth.getInstance().getUid();
-        if (uid == null) return;
-
-        db.collection("users").document(uid).collection("schedule")
-                .whereEqualTo("day", day)
-                .orderBy("startTime", Query.Direction.ASCENDING)
-                .addSnapshotListener((value, error) -> {
-                    if (error != null || value == null) return;
-                    scheduleList.clear();
-                    scheduleList.addAll(value.toObjects(ScheduleItem.class));
-                    adapter.notifyDataSetChanged();
-                });
     }
 }

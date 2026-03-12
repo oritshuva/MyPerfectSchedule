@@ -12,21 +12,31 @@
         android:text="הוספת משימה חדשה"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginBottom="24dp" />
 
+    <!-- ✅ עכשיו אפשר להסיר את android:padding כי זה כבר ב-drawable -->
     <EditText
         android:id="@+id/editTaskName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="מה המשימה?"
         android:background="@drawable/edittext_rounded"
-        android:padding="12dp"
         android:layout_marginBottom="16dp" />
 
     <Spinner
         android:id="@+id/spinnerTaskSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_rounded"
+        android:layout_marginBottom="16dp" />
+
+    <!-- ✨ Spinner של דחיפות -->
+    <Spinner
+        android:id="@+id/spinnerUrgency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_rounded"
         android:layout_marginBottom="16dp" />
 
     <EditText
@@ -35,8 +45,8 @@
         android:layout_height="wrap_content"
         android:hint="תאריך יעד"
         android:focusable="false"
+        android:clickable="true"
         android:background="@drawable/edittext_rounded"
-        android:padding="12dp"
         android:layout_marginBottom="32dp" />
 
     <Button
@@ -45,6 +55,6 @@
         android:layout_height="wrap_content"
         android:text="שמור משימה"
         android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF" />
+        android:textColor="@color/white" />
 
 </LinearLayout>
