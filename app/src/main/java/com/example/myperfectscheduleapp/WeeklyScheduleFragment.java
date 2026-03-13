@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class TasksFragment extends Fragment {
+public class WeeklyScheduleFragment extends Fragment {
 
     @Nullable
     @Override
@@ -17,7 +17,7 @@ public class TasksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tasks_placeholder, container, false);
 
         TextView textView = view.findViewById(R.id.placeholderText);
-        textView.setText("מסך משימות\n(בפיתוח)");
+        textView.setText("מערכת שעות שבועית\n(בפיתוח)");
 
         return view;
     }

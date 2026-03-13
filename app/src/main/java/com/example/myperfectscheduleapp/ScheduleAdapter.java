@@ -28,9 +28,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     @Override
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         ScheduleItem item = scheduleList.get(position);
+
+        // הצגת הנתונים
         holder.tvSubject.setText(item.getSubject());
-        holder.tvDay.setText(item.getDay());
         holder.tvTime.setText(item.getStartTime() + " - " + item.getEndTime());
+        holder.tvRoom.setText("חדר: " + item.getRoom());
+        holder.textPeriod.setText(String.valueOf(item.getPeriod()));
     }
 
     @Override
@@ -39,13 +42,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSubject, tvDay, tvTime;
+        TextView tvSubject, tvTime, tvRoom, textPeriod;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubject = itemView.findViewById(R.id.tvSubject);
-            tvDay = itemView.findViewById(R.id.tvDay);
             tvTime = itemView.findViewById(R.id.tvTime);
+            tvRoom = itemView.findViewById(R.id.tvRoom);
+            textPeriod = itemView.findViewById(R.id.textPeriod);
         }
     }
 }

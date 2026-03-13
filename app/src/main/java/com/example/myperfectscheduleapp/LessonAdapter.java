@@ -3,16 +3,26 @@ package com.example.myperfectscheduleapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
-    private final List<ScheduleItem> lessons;
 
-    public LessonAdapter(List<ScheduleItem> lessons) {
-        this.lessons = lessons;
+    public interface OnDeleteClickListener {
+        void onDelete(ScheduleItem item);
+    }
+
+    private final List<ScheduleItem> items;
+    private final OnDeleteClickListener deleteListener;
+
+    public LessonAdapter(List<ScheduleItem> items, OnDeleteClickListener listener) {
+        this.items          = items;
+        this.deleteListener = listener;
     }
 
     @NonNull
@@ -25,45 +35,33 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
     @Override
     public void onBindViewHolder(@NonNull LessonViewHolder holder, int position) {
-        ScheduleItem lesson = lessons.get(position);
+        ScheduleItem item = items.get(position);
 
-        // Period
-        holder.periodTextView.setText(
-                holder.itemView.getContext().getString(R.string.period_placeholder, lesson.getPeriod())
-        );
+        holder.tvSubject.setText(item.getSubject());
+        holder.tvTime.setText(item.getStartTime() + " - " + item.getEndTime());
+        holder.tvRoom.setText("חדר: " + (item.getRoom() != null
+                && !item.getRoom().isEmpty() ? item.getRoom() : "לא צוין"));
+        holder.tvPeriod.setText("שיעור " + item.getPeriod());
 
-        // Subject
-        holder.subjectTextView.setText(lesson.getSubject());
-
-        // Time
-        holder.timeTextView.setText(
-                holder.itemView.getContext().getString(R.string.time_placeholder,
-                        lesson.getStartTime(), lesson.getEndTime())
-        );
-
-        // Room
-        holder.roomTextView.setText(
-                holder.itemView.getContext().getString(R.string.room_placeholder, lesson.getRoom())
-        );
+        holder.btnDelete.setOnClickListener(v -> deleteListener.onDelete(item));
     }
 
     @Override
     public int getItemCount() {
-        return lessons.size();
+        return items.size();
     }
 
     static class LessonViewHolder extends RecyclerView.ViewHolder {
-        TextView periodTextView;
-        TextView subjectTextView;
-        TextView timeTextView;
-        TextView roomTextView;
+        TextView tvSubject, tvTime, tvRoom, tvPeriod;
+        ImageButton btnDelete;
 
-        public LessonViewHolder(@NonNull View itemView) {
+        LessonViewHolder(@NonNull View itemView) {
             super(itemView);
-            periodTextView = itemView.findViewById(R.id.periodTextView);
-            subjectTextView = itemView.findViewById(R.id.subjectTextView);
-            timeTextView = itemView.findViewById(R.id.timeTextView);
-            roomTextView = itemView.findViewById(R.id.roomTextView);
+            tvSubject  = itemView.findViewById(R.id.tvSubject);
+            tvTime     = itemView.findViewById(R.id.tvTime);
+            tvRoom     = itemView.findViewById(R.id.tvRoom);
+            tvPeriod   = itemView.findViewById(R.id.tvPeriod);
+            btnDelete  = itemView.findViewById(R.id.btnDelete);
         }
     }
 }

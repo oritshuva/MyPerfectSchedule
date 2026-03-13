@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- כותרת עליונה -->
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#6200EE"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="24dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My Perfect Schedule"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"/>
 
@@ -26,51 +30,61 @@
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome"
+            android:text="ברוך הבא"
             android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="8dp"/>
+            android:textColor="#E0E0E0"
+            android:layout_marginTop="6dp"/>
 
     </LinearLayout>
 
-    <!-- כפתורים -->
+    <!-- Buttons Grid -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center">
+        android:padding="16dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddLesson"
+            android:id="@+id/btnSchedule"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_weight="1"
-            android:text="Add Lesson"
+            android:text="📅 מערכת שעות"
             android:textSize="14sp"
-            app:backgroundTint="#4CAF50"
             android:textColor="#FFFFFF"
+            app:backgroundTint="#4CAF50"
             android:layout_marginEnd="8dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnTasks"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_weight="1"
-            android:text="Logout"
+            android:text="✅ משימות"
             android:textSize="14sp"
-            app:backgroundTint="#F44336"
             android:textColor="#FFFFFF"
+            app:backgroundTint="#2196F3"
             android:layout_marginStart="8dp"/>
 
     </LinearLayout>
 
-    <!-- רשימת מערכת השעות -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSchedule"
+    <!-- Logout -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🚪 התנתקות"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#F44336"/>
+
+    </LinearLayout>
 
 </LinearLayout>

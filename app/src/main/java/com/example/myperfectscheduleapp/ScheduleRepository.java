@@ -1,33 +1,20 @@
 package com.example.myperfectscheduleapp;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.ListenerRegistration;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ScheduleRepository {
+
     private static ScheduleRepository instance;
     private final FirebaseFirestore db;
-    private final FirebaseAuth auth;
+    private ListenerRegistration listenerRegistration;
 
-    // Day schedules - organized by day
-    private final Map<String, MutableLiveData<List<ScheduleItem>>> daySchedules = new HashMap<>();
-
-    // Constructor פרטי
-    private ScheduleRepository() {
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-        initializeDaySchedules();
-    }
-
-    // Singleton pattern
+    // Singleton - רק instance אחד קיים
     public static synchronized ScheduleRepository getInstance() {
         if (instance == null) {
             instance = new ScheduleRepository();
@@ -35,120 +22,98 @@ public class ScheduleRepository {
         return instance;
     }
 
-    // אתחול ה-LiveData עבור כל יום
-    private void initializeDaySchedules() {
-        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        for (String day : days) {
-            daySchedules.put(day, new MutableLiveData<>(new ArrayList<>()));
-        }
+    private ScheduleRepository() {
+        db = FirebaseFirestore.getInstance();
     }
 
-    // קבלת LiveData של לוח זמנים ליום מסוים
-    public LiveData<List<ScheduleItem>> getScheduleForDay(String uid, String day) {
-        MutableLiveData<List<ScheduleItem>> daySchedule = daySchedules.get(day);
-
-        if (daySchedule != null) {
-            loadScheduleFromFirestore(uid, day, daySchedule);
-        }
-
-        return daySchedule;
+    /**
+     * מחזיר את ה-path הנכון: users/{userId}/schedules
+     */
+    private String getCollectionPath(String userId) {
+        return "users/" + userId + "/schedules";
     }
 
-    // טעינת נתונים מ-Firestore
-    private void loadScheduleFromFirestore(String uid, String day, MutableLiveData<List<ScheduleItem>> liveData) {
-        getSchedulesCollection(uid)
-                .whereEqualTo("day", day)
-                .orderBy("period")
-                .addSnapshotListener((snapshots, error) -> {
-                    if (error != null) {
-                        return;
-                    }
-
-                    if (snapshots != null) {
-                        List<ScheduleItem> items = new ArrayList<>();
-                        for (DocumentSnapshot doc : snapshots.getDocuments()) {
-                            ScheduleItem item = doc.toObject(ScheduleItem.class);
-                            if (item != null) {
-                                item.setDocumentId(doc.getId());
-                                items.add(item);
-                            }
-                        }
-                        liveData.postValue(items);
-                    }
-                });
-    }
-
-    // הוספת שיעור חדש
-    public void addScheduleItem(ScheduleItem item, OnCompleteListener listener) {
-        String uid = getCurrentUserId();
-        if (uid == null) {
-            if (listener != null) listener.onFailure("User not authenticated");
-            return;
-        }
-
-        item.setUserId(uid);
-
-        getSchedulesCollection(uid)
+    /**
+     * הוספת שיעור חדש
+     */
+    public void addScheduleItem(
+            String userId,
+            ScheduleItem item,
+            OnSuccessListener<Void> onSuccess,
+            OnFailureListener onFailure
+    ) {
+        db.collection(getCollectionPath(userId))
                 .add(item)
                 .addOnSuccessListener(documentReference -> {
-                    if (listener != null) listener.onSuccess();
+                    // עדכון ה-documentId בתוך המסמך
+                    String generatedId = documentReference.getId();
+                    documentReference.update("documentId", generatedId)
+                            .addOnSuccessListener(unused -> {
+                                if (onSuccess != null) onSuccess.onSuccess(null);
+                            })
+                            .addOnFailureListener(e -> {
+                                // גם אם העדכון נכשל, השיעור נוסף
+                                if (onSuccess != null) onSuccess.onSuccess(null);
+                            });
                 })
                 .addOnFailureListener(e -> {
-                    if (listener != null) listener.onFailure(e.getMessage());
+                    if (onFailure != null) onFailure.onFailure(e);
                 });
     }
 
-    // עדכון שיעור
-    public void updateScheduleItem(ScheduleItem item, OnCompleteListener listener) {
-        String uid = getCurrentUserId();
-        if (uid == null || item.getDocumentId() == null) {
-            if (listener != null) listener.onFailure("Invalid update request");
-            return;
-        }
-
-        getSchedulesCollection(uid)
-                .document(item.getDocumentId())
-                .set(item)
-                .addOnSuccessListener(aVoid -> {
-                    if (listener != null) listener.onSuccess();
+    /**
+     * קבלת שיעורים לפי יום
+     */
+    public void getScheduleByDay(
+            String userId,
+            String day,
+            OnSuccessListener<List<ScheduleItem>> onSuccess,
+            OnFailureListener onFailure
+    ) {
+        db.collection(getCollectionPath(userId))
+                .whereEqualTo("day", day)
+                .orderBy("startTime")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<ScheduleItem> items = new ArrayList<>();
+                    for (com.google.firebase.firestore.DocumentSnapshot doc
+                            : querySnapshot.getDocuments()) {
+                        ScheduleItem item = doc.toObject(ScheduleItem.class);
+                        if (item != null) {
+                            item.setDocumentId(doc.getId());
+                            items.add(item);
+                        }
+                    }
+                    if (onSuccess != null) onSuccess.onSuccess(items);
                 })
                 .addOnFailureListener(e -> {
-                    if (listener != null) listener.onFailure(e.getMessage());
+                    if (onFailure != null) onFailure.onFailure(e);
                 });
     }
 
-    // מחיקת שיעור
-    public void deleteScheduleItem(String documentId, OnCompleteListener listener) {
-        String uid = getCurrentUserId();
-        if (uid == null || documentId == null) {
-            if (listener != null) listener.onFailure("Invalid delete request");
-            return;
-        }
-
-        getSchedulesCollection(uid)
+    /**
+     * מחיקת שיעור
+     */
+    public void deleteScheduleItem(
+            String userId,
+            String documentId,
+            OnSuccessListener<Void> onSuccess,
+            OnFailureListener onFailure
+    ) {
+        db.collection(getCollectionPath(userId))
                 .document(documentId)
                 .delete()
-                .addOnSuccessListener(aVoid -> {
-                    if (listener != null) listener.onSuccess();
-                })
-                .addOnFailureListener(e -> {
-                    if (listener != null) listener.onFailure(e.getMessage());
-                });
+                .addOnSuccessListener(onSuccess)
+                .addOnFailureListener(onFailure);
     }
 
-    // קבלת collection של schedules למשתמש
-    private CollectionReference getSchedulesCollection(String uid) {
-        return db.collection("users").document(uid).collection("schedules");
-    }
-
-    // קבלת UID של המשתמש הנוכחי
-    private String getCurrentUserId() {
-        return auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
-    }
-
-    // Interface ל-callbacks
-    public interface OnCompleteListener {
-        void onSuccess();
-        void onFailure(String error);
+    /**
+     * ניקוי listeners כשיוצאים מהמסך
+     */
+    public void cleanup() {
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+            listenerRegistration = null;
+        }
     }
 }
